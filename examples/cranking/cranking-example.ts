@@ -37,14 +37,14 @@ export async function sleep(ms: number) {
 
 async function main() {
   // Generate a new keypair for wallet otherwise load from a private key.
-  const userKey = Keypair.generate();
-  const wallet = new Wallet(userKey);
+  // const userKey = Keypair.generate();
+  // const wallet = new Wallet(userKey);
 
   // Load from private_key stored in .env file.
-  // const privateKey = Keypair.fromSecretKey(
-  //   new Uint8Array(JSON.parse(Buffer.from(process.env.private_key).toString()))
-  // );
-  // const wallet = new Wallet(privateKey);
+  const privateKey = Keypair.fromSecretKey(
+    new Uint8Array(JSON.parse(Buffer.from(process.env.private_key).toString()))
+  );
+  const wallet = new Wallet(privateKey);
 
   // Create a solana web3 connection to devnet.
   const connection = new Connection(NETWORK_URL, "confirmed");
@@ -63,7 +63,7 @@ async function main() {
     utils.defaultCommitment(),
     wallet,
     // ThrottleMs - increase if you are running into rate limit issues on startup.
-    0
+    1000,
   );
 
   // Display state of zeta markets
